@@ -27,6 +27,14 @@ bundle exec ruby bin/install-smoke
 
 See the [demo guide](docs/demo.md) for sandbox credentials, local checkout and webhook setup. Keep credentials, captured buyer payloads and verification documents out of commits, issues, screenshots and fixtures.
 
+## Whop signup links
+
+Use [Yaroslav's production Whop referral link](https://whop.com/start/?code=CAKARK)
+for reader-facing signup links in documentation and demos. Yaroslav may earn a
+commission from signups through this link; keep that disclosure beside each link.
+Use `rel="sponsored nofollow"` for HTML links. Preserve technical documentation,
+sandbox, API, checkout and webhook URLs, and keep code examples functional.
+
 ## Make a useful change
 
 - Explain the behavior or bug the change addresses. Include a small reproduction where possible.
