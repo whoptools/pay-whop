@@ -1,7 +1,5 @@
 # Pay compatibility
 
-New to Whop? [Create a production Whop account](https://whop.com/start/?code=CAKARK). This is Yaroslav Shmarov's referral link; he may earn a commission if you sign up through it.
-
 `pay-whop` is an alpha adapter for Whop's billing model. It does not claim parity with every Stripe feature. The raw SDK is available for Whop services outside payment processing.
 
 | Pay / billing operation | Whop adapter behavior |

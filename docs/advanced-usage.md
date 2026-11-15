@@ -1,7 +1,5 @@
 # Billing and marketplaces
 
-New to Whop? [Create a production Whop account](https://whop.com/start/?code=CAKARK). This is Yaroslav Shmarov's referral link; he may earn a commission if you sign up through it.
-
 All amounts accepted by adapter convenience methods are integer minor units: `500` means USD 5.00. Specify `decimals: 0` for JPY or `decimals: 3` for KWD when creating prices or transfers; refund precision comes from the original payment. Arbitrary inline `variant` prices follow Whop's API and use major units.
 
 Pay charge amounts use Whop's account-facing `total` and `refunded_amount`, rather than buyer fees. Currency mismatches are rejected. Adaptive pricing, FX refunds and tax reconciliation still require further validation.
