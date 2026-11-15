@@ -1,5 +1,7 @@
 # Run the sandbox playground
 
+For a production business, [create a Whop account](https://whop.com/start/?code=CAKARK). This is Yaroslav Shmarov's referral link; he may earn a commission if you sign up through it. The playground below uses separate sandbox credentials.
+
 From the repository root, using Ruby 3.3 or newer:
 
 ```sh
