@@ -56,9 +56,22 @@ class ExtendedBillingTest < ActiveSupport::TestCase
     saved_methods
     @customer.add_payment_method("payt_test", default: true)
     api(:post, "payments", payment(status: "pending"))
+    api(:get, "payments/pay_test", payment(status: "pending"))
     error = assert_raises(Pay::Whop::PaymentIncomplete) { @customer.charge(1043) }
     assert_equal "pay_test", error.payment.id
     assert_empty @customer.charges
+  end
+
+  test "idempotent charge retries refresh a cached open response before reporting failure" do
+    saved_methods
+    @customer.add_payment_method("payt_test", default: true)
+    request = api(:post, "payments", payment(status: "open")).with { |req| req.headers["Idempotency-Key"] == "saved-charge-test" }
+    api(:get, "payments/pay_test", payment)
+    first = @customer.charge(1043, idempotency_key: "saved-charge-test")
+    second = @customer.charge(1043, idempotency_key: "saved-charge-test")
+    assert_equal first.id, second.id
+    assert_equal 1, @customer.charges.count
+    assert_requested request, times: 2
   end
 
   test "another member payment cannot be captured or voided" do

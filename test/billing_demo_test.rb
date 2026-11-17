@@ -183,6 +183,7 @@ class BillingDemoTest < ActionDispatch::IntegrationTest
     api(:get, "payment_methods?member_id=mber_demo&first=100&after", {data: [{id: "payt_demo", __typename: "CardPaymentMethod", payment_method_type: "card", card: {brand: "visa", last4: "4242", exp_month: 12, exp_year: 2034}}], page_info: {has_next_page: false}})
     recovery = "https://sandbox.whop.com/payments/recover/test"
     api(:post, "payments", payment(member_id: "mber_demo", metadata: customer.checkout_metadata, status: "requires_action", recovery_url: recovery))
+    api(:get, "payments/pay_test", payment(member_id: "mber_demo", metadata: customer.checkout_metadata, status: "requires_action", recovery_url: recovery))
     post "/charge", params: {payment_method_id: "payt_demo", authenticity_token: csrf_token}
     follow_redirect!
     assert_select "a[href=?]", recovery, text: "Complete test payment authentication on Whop"

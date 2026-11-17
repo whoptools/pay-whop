@@ -156,6 +156,7 @@ module Pay
 
       def confirmed_charge(result)
         verify_resource!(Whop.api_attributes(result))
+        result = payment(result.id) unless result.status == "paid"
         raise PaymentIncomplete, result unless result.status == "paid"
         Charge.sync(result.id, account_id: account_id)
       end
