@@ -1,0 +1,38 @@
+name: pay-whop-database
+services:
+  db:
+    image: postgres:17
+    container_name: pay-whop-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: pay_whop
+      POSTGRES_DB: pay_whop
+      POSTGRES_PASSWORD_FILE: /run/secrets/postgres_password
+    secrets: [postgres_password]
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks: [database]
+    mem_limit: 256m
+    cpus: 0.5
+    shm_size: 128m
+    command: [postgres, -c, shared_buffers=64MB, -c, max_connections=30, -c, work_mem=2MB]
+    healthcheck:
+      test: [CMD-SHELL, pg_isready -U pay_whop -d pay_whop]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+    logging:
+      driver: json-file
+      options:
+        max-size: 10m
+        max-file: "3"
+secrets:
+  postgres_password:
+    file: /opt/pay-whop/shared/postgres-password
+volumes:
+  postgres_data:
+    name: pay-whop_postgres_data
+networks:
+  database:
+    name: pay-whop-database
+    internal: true

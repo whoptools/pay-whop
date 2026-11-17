@@ -7,7 +7,7 @@ services:
     env_file: /opt/pay-whop/shared/runtime.env
     mem_limit: 512m
     cpus: 0.5
-    networks: [kamal]
+    networks: [kamal, database]
     healthcheck:
       test: ["CMD", "ruby", "-rnet/http", "-e", "exit(Net::HTTP.get_response(URI('http://127.0.0.1:3001/up')).code == '200' ? 0 : 1)"]
       interval: 30s
@@ -23,3 +23,6 @@ networks:
   kamal:
     external: true
     name: kamal
+  database:
+    external: true
+    name: pay-whop-database

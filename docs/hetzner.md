@@ -2,8 +2,9 @@
 
 The playground runs at https://pay.whoptools.com on the existing Corsego server
 (`188.245.75.73`), alongside the Webflow integration. Each app has its own container
-and hostname behind Kamal Proxy. The playground retains its existing Neon
-PostgreSQL database; moving the web service does not move or reset billing data.
+and hostname behind Kamal Proxy. The playground uses a dedicated PostgreSQL 17 container on the same host. It
+started with a fresh sandbox database on November 17, 2026; Neon data was not
+imported. The old Neon database remains intact as a fallback.
 
 ## Layout
 
@@ -11,11 +12,39 @@ PostgreSQL database; moving the web service does not move or reset billing data.
 - Active release: `/opt/pay-whop/current`
 - Runtime environment: `/opt/pay-whop/shared/runtime.env` (root-owned, mode 0600)
 - Container: `pay-whop-app`, private port 3001, external Docker network `kamal`
-- Limits: 512 MB RAM and half a CPU; bounded Docker logs; automatic restart
+- App limits: 512 MB RAM and half a CPU; bounded Docker logs; automatic restart
+- Database: `pay-whop-db`, volume `pay-whop_postgres_data`, 256 MB RAM
+- Private database network: `pay-whop-database`; no published database port
+- Database definition: `/opt/pay-whop/shared/postgres.yaml` from `deploy/postgres.yaml`
 
 Keep `SECRET_KEY_BASE`, `DATABASE_URL` and the sandbox Whop settings stable. Never
 commit runtime secrets or include them in the Docker build context. The app
 refuses to boot with a live Whop environment.
+
+## Database and backups
+
+The database is managed separately from application releases:
+
+```sh
+docker compose -f /opt/pay-whop/shared/postgres.yaml up -d --wait db
+```
+
+The database password lives in `/opt/pay-whop/shared/postgres-password` (mode
+0600). The app connects through the private Docker network using its protected
+`DATABASE_URL`. Do not publish PostgreSQL ports or reuse the Corsego database.
+Never delete `pay-whop_postgres_data` during an application deployment.
+
+The `pay-whop-database-backup.timer` runs daily. Its operator-installed script,
+`deploy/backup-postgres.sh`, writes custom-format dumps to
+`/opt/pay-whop/shared/backups`, checks their archive index and retains 14 days.
+Run `/usr/local/sbin/pay-whop-database-backup` for an on-demand dump. These backups
+remain on the server; off-server backup storage is a separate recovery task.
+
+The initial database reset also rotated `SECRET_KEY_BASE`, invalidating old
+browser sessions before numeric IDs could be reused. Keep the new secret stable
+for subsequent deployments. The sandbox seller mapping was restored from its
+verified Whop child account; old users, payments and subscriptions were not
+imported. Whop's own sandbox records remain at Whop.
 
 ## Automatic deployments
 
@@ -65,8 +94,11 @@ when moving its URL.
 The old Render service is retained suspended for rollback. To roll back the
 hosting move, resume it, restore Cloudflare's `pay` CNAME to
 `pay-whop.onrender.com`, and restore that endpoint's previous webhook URL.
-Both deployments use the same database; never restore or delete the database as
-part of a web-host rollback. DNS caches can temporarily send traffic to both.
+Render retains its former Neon configuration and cannot reach the new private
+Docker database. Resuming it would show the pre-reset demo data, not the current
+database. `/opt/pay-whop/shared/runtime.neon.env` retains the original protected
+configuration for that fallback. Do not silently swap databases as part of an
+application rollback.
 
 Application rollback does not reverse database migrations. A release requiring
 irreversible migrations needs its own backup and rollback plan. Render remains

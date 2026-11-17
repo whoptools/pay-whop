@@ -1,0 +1,9 @@
+[Unit]
+Description=Back up Pay Whop PostgreSQL
+Requires=docker.service
+After=docker.service
+
+[Service]
+Type=oneshot
+ExecStart=/usr/local/sbin/pay-whop-database-backup
+UMask=0077
