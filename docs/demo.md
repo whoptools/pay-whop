@@ -25,7 +25,10 @@ bundle exec examples/rails/bin/reconcile
 
 ## Deploy the playground
 
-`render.yaml` defines a free Rails web service. Supply a separate persistent PostgreSQL database (for example, Neon Free); Render’s free database expires after 30 days. The app uses GoodJob with PostgreSQL-backed jobs, bounded retries and a recovery job for pending deliveries. It only boots against Whop sandbox. Free hosting has usage limits and the web service sleeps when idle.
+The public playground uses Docker on the shared Hetzner server with a dedicated
+PostgreSQL database. See [the deployment runbook](hetzner.md). GoodJob runs
+PostgreSQL-backed jobs, bounded retries and recovery for pending deliveries.
+The app only boots against Whop sandbox.
 
 Set the listed environment variables in the host’s secret settings. Optionally set `DEMO_MERCHANT_ID` to a registered sandbox subaccount to show marketplace checkout, and `WHOP_ONE_TIME_VARIANT_ID` to a USD 5.00 one-time variant to show draft invoices. Set `WHOP_RETURN_URL` to the public HTTPS root URL, register `/pay/whop/webhooks` with Whop using the adapter’s event list and dated API version, then set `WHOP_WEBHOOK_SECRET`. `examples/rails/bin/start` applies migrations and starts Puma. Keep a stable `SECRET_KEY_BASE`: changing it invalidates sessions and the customer references already stored in Whop.
 
@@ -35,4 +38,4 @@ Never expose the local developer database or reuse a production Whop API key for
 
 Repository screenshots were captured from the deployed sandbox on 12 November 2026. Billing screenshots show synthetic customers and Whop test payments; they contain no API keys, buyer contact details or live-money transactions. Tax can make a USD 5.00 checkout appear as USD 6.00 in the billing table. The amber invoice/transfer section uses separate local simulation records.
 
-The public playground at https://pay.whoptools.com now runs on Hetzner. See [the deployment runbook](hetzner.md) for its shared-server setup. The Render blueprint remains available for independent installations.
+The public playground at https://pay.whoptools.com now runs on Hetzner. See [the deployment runbook](hetzner.md) for its shared-server setup.
