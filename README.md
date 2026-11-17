@@ -9,7 +9,7 @@
 
 Hosted checkout, subscriptions, saved payment methods, refunds and marketplace subaccounts using familiar Pay models and Whop's official Ruby SDK.
 
-[Get started with Whop](https://whop.com/start/?code=CAKARK). *I may earn a commission.*
+[Create a Whop account](https://whop.com/start/?code=CAKARK).
 
 [**Try the live demo**](https://pay.whoptools.com/) · [Install](#installation) · [Usage guide](docs/advanced-usage.md) · [Compatibility](docs/compatibility.md) · [Changelog](CHANGELOG.md)
 
