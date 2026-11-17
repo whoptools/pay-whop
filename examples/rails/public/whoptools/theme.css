@@ -1,0 +1,31 @@
+/* Generated from @frosted-ui/colors. See ./licenses/frosted-ui.txt. */
+:root { color-scheme: light;
+  --background: #ffffff;
+  --text: #202020;
+  --muted: #646464;
+  --border: #d9d9d9;
+  --control: #8d8d8d;
+  --surface: #f0f0f0;
+  --link: #1f5cdd;
+  --focus: #1f5cdd;
+  --warning: #ab6400;
+  --signup: #fa4616;
+  --signup-hover: #ec3400;
+  --signup-text: #000000;
+}
+@media (prefers-color-scheme: dark) {
+  :root { color-scheme: dark;
+  --background: #111111;
+  --text: #eeeeee;
+  --muted: #b4b4b4;
+  --border: #3a3a3a;
+  --control: #6e6e6e;
+  --surface: #222222;
+  --link: #699bff;
+  --focus: #699bff;
+  --warning: #ffca16;
+  --signup: #fa4616;
+  --signup-hover: #eb3600;
+  --signup-text: #000000;
+  }
+}
