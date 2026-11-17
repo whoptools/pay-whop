@@ -161,3 +161,7 @@ Monitor pending deliveries and `delivery_failed.pay_whop`. A successful webhook 
 | [Releases](https://github.com/yshmarov/pay-whop/releases) | Changelog and downloadable gem artifacts |
 
 Maintained by [Yaroslav Shmarov](https://github.com/yshmarov). Built on [Pay](https://github.com/pay-rails/pay) and [Whop's official Ruby SDK](https://github.com/whopio/whopsdk-ruby). Available under the [MIT license](LICENSE).
+
+## Demo appearance
+
+The Rails playground uses self-hosted Inter and official Frosted UI color tokens in `examples/rails/public/whoptools`. Its colors follow the system automatically, including changes while the page is open; there is no theme switch or saved override.
