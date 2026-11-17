@@ -45,6 +45,25 @@ class WebhooksTest < ActionDispatch::IntegrationTest
     assert_equal "pay_test", Pay::Whop::Delivery.sole.resource_id
   end
 
+  test "refund webhook accepts the provider's nested payment reference" do
+    body, headers = sign_event(type: "refund.created", data: {"id" => "rf_test", "payment" => {"id" => "pay_test"}})
+    post "/pay/whop/webhooks", params: body, headers: headers
+    assert_response :ok
+    assert_equal "pay_test", Pay::Whop::Delivery.sole.resource_id
+    api(:get, "payments/pay_test", payment)
+    Pay::Whop::Delivery.sole.process!
+    assert_equal "pay_test", @customer.charges.sole.processor_id
+  end
+
+  test "refund webhook rejects missing and conflicting payment references" do
+    [{"id" => "rf_test"}, {"id" => "rf_test", "payment_id" => "pay_test", "payment" => {"id" => "pay_other"}}].each do |data|
+      body, headers = sign_event(type: "refund.created", data: data)
+      post "/pay/whop/webhooks", params: body, headers: headers
+      assert_response :bad_request
+    end
+    assert_empty Pay::Whop::Delivery.all
+  end
+
   test "API failure leaves the delivery available for retry" do
     body, headers = sign_event
     post "/pay/whop/webhooks", params: body, headers: headers

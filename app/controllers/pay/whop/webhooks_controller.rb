@@ -10,8 +10,15 @@ module Pay
         return head :ok unless Delivery::EVENTS.include?(event["type"])
         raise InvalidPayload, "Webhook ID mismatch" unless event.fetch("id") == request.headers["webhook-id"]
         object = event.fetch("data")
-        resource_id = event["type"].start_with?("refund.") ? object.fetch("payment_id") : object.fetch("id")
-        raise InvalidPayload, "Missing resource ID" if resource_id.blank?
+        resource_id = if event["type"].start_with?("refund.")
+          payment = object["payment"]
+          references = [object["payment_id"], payment.is_a?(Hash) ? payment["id"] : payment].compact.uniq
+          raise InvalidPayload, "Conflicting refund payment references" if references.size > 1
+          references.first
+        else
+          object.fetch("id")
+        end
+        raise InvalidPayload, "Missing resource ID" unless resource_id.is_a?(String) && resource_id.present?
         delivery = Delivery.create_or_find_by!(environment: Whop.environment, account_id: account, event_id: event.fetch("id")) do |record|
           record.event_type = event.fetch("type")
           record.resource_id = resource_id
