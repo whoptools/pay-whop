@@ -32,6 +32,14 @@ class ExtendedBillingTest < ActiveSupport::TestCase
     assert_raises(ActiveRecord::RecordNotFound) { @customer.add_payment_method("payt_foreign") }
   end
 
+  test "selecting the current default payment method again keeps it selected" do
+    saved_methods
+    method = @customer.add_payment_method("payt_test", default: true)
+    @customer.add_payment_method("payt_test", default: true)
+    assert method.reload.default?
+    assert_equal [method.id], @customer.payment_methods.where(default: true).pluck(:id)
+  end
+
   test "setup success resolves the signed customer and synchronizes the saved method" do
     saved_methods
     api(:get, "setup_intents/sint_test", {id: "sint_test", account_id: "biz_test", member_id: "mber_test", status: "succeeded", payment_method_id: "payt_test", metadata: @customer.checkout_metadata})
