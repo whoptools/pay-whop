@@ -1,0 +1,25 @@
+name: pay-whop
+services:
+  app:
+    image: pay-whop:${APP_IMAGE_TAG:?Set APP_IMAGE_TAG to the deployed commit}
+    container_name: pay-whop-app
+    restart: unless-stopped
+    env_file: /opt/pay-whop/shared/runtime.env
+    mem_limit: 512m
+    cpus: 0.5
+    networks: [kamal]
+    healthcheck:
+      test: ["CMD", "ruby", "-rnet/http", "-e", "exit(Net::HTTP.get_response(URI('http://127.0.0.1:3001/up')).code == '200' ? 0 : 1)"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 60s
+    logging:
+      driver: json-file
+      options:
+        max-size: 10m
+        max-file: "3"
+networks:
+  kamal:
+    external: true
+    name: kamal

@@ -11,9 +11,9 @@ Hosted checkout, subscriptions, saved payment methods, refunds and marketplace s
 
 [Get started with Whop](https://whop.com/start/?code=CAKARK). *I may earn a commission.*
 
-[**Try the live demo**](https://pay-whop.onrender.com/) · [Install](#installation) · [Usage guide](docs/advanced-usage.md) · [Compatibility](docs/compatibility.md) · [Changelog](CHANGELOG.md)
+[**Try the live demo**](https://pay.whoptools.com/) · [Install](#installation) · [Usage guide](docs/advanced-usage.md) · [Compatibility](docs/compatibility.md) · [Changelog](CHANGELOG.md)
 
-[![The deployed Rails playground with Whop subscription, one-time and marketplace checkout controls and its Ruby integration example](.github/images/demo-overview.jpg)](https://pay-whop.onrender.com/)
+[![The deployed Rails playground with Whop subscription, one-time and marketplace checkout controls and its Ruby integration example](.github/images/demo-overview.jpg)](https://pay.whoptools.com/)
 
 **Community alpha.** Published on RubyGems as `0.1.0.alpha.4`. Independently maintained; not an official Whop or Pay integration. Start in the sandbox and review the [verification evidence](docs/verification.md) before production use.
 
@@ -54,7 +54,7 @@ Captured from the deployed demo on 12 November 2026. Synthetic customer records 
 
 ![Amber-labelled invoice and transfer simulations showing their local activity history and simulated outcomes](.github/images/demo-simulations.jpg)
 
-[Try these simulations](https://pay-whop.onrender.com/#simulations) without a Whop account or KYC. They update separate local demo records, with `sim_` references and a resettable history. They never call Whop, create Pay charges, grant access or move funds. A simulated outcome does not verify real invoice issuance or transfer settlement.
+[Try these simulations](https://pay.whoptools.com/#simulations) without a Whop account or KYC. They update separate local demo records, with `sim_` references and a resettable history. They never call Whop, create Pay charges, grant access or move funds. A simulated outcome does not verify real invoice issuance or transfer settlement.
 
 </details>
 
@@ -150,8 +150,8 @@ Monitor pending deliveries and `delivery_failed.pay_whop`. A successful webhook 
 
 | Resource | What you will find |
 | --- | --- |
-| [Live sandbox playground](https://pay-whop.onrender.com/) | Test checkout, saved methods, refunds and session-scoped billing. Free hosting may take about a minute to wake up. |
-| [Run or deploy the demo](docs/demo.md) | Local setup, HTTPS returns, webhook configuration and Render/Neon hosting |
+| [Live sandbox playground](https://pay.whoptools.com/) | Test checkout, saved methods, refunds and session-scoped billing. Hosted on the shared WhopTools Hetzner server. |
+| [Run or deploy the demo](docs/demo.md) | Local setup, HTTPS returns, webhook configuration and Hetzner deployment |
 | [Advanced usage](docs/advanced-usage.md) | Billing, marketplaces, invoices, disputes, retries, permissions and recovery |
 | [Compatibility matrix](docs/compatibility.md) | Supported Pay operations and differences from Stripe |
 | [Verification evidence](docs/verification.md) | Tested versions, actual sandbox results and open validation gaps |
