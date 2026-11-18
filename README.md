@@ -2,14 +2,16 @@
 
 **Whop payments for Ruby on Rails, through [Pay](https://github.com/pay-rails/pay).**
 
-[![CI](https://github.com/yshmarov/pay-whop/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/yshmarov/pay-whop/actions/workflows/ci.yml)
-[![RubyGems alpha](https://img.shields.io/gem/v/pay-whop?include_prereleases&label=RubyGems)](https://rubygems.org/gems/pay-whop)
+[![CI](https://github.com/whoptools/pay-whop/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/whoptools/pay-whop/actions/workflows/ci.yml)
+[![Gem version](https://img.shields.io/gem/v/pay-whop?include_prereleases&label=gem)](https://rubygems.org/gems/pay-whop)
+[![Gem downloads](https://img.shields.io/gem/dt/pay-whop?label=downloads)](https://rubygems.org/gems/pay-whop)
 [![Ruby 3.3+](https://img.shields.io/badge/Ruby-3.3%2B-CC342D)](pay-whop.gemspec)
-[![MIT license](https://img.shields.io/github/license/yshmarov/pay-whop)](LICENSE)
+[![MIT license](https://img.shields.io/github/license/whoptools/pay-whop)](LICENSE)
+[![Live demo](https://img.shields.io/badge/live_demo-pay.whoptools.com-fa4616)](https://pay.whoptools.com/)
 
 Hosted checkout, subscriptions, saved payment methods, refunds and marketplace subaccounts using familiar Pay models and Whop's official Ruby SDK.
 
-[Create a Whop account](https://whop.com/start/?code=CAKARK).
+<a href="https://whop.com/start/?code=CAKARK" rel="sponsored"><img src=".github/create-whop-account.svg" alt="Create a Whop account" height="40"></a>
 
 [**Try the live demo**](https://pay.whoptools.com/) · [Install](#installation) · [Usage guide](docs/advanced-usage.md) · [Compatibility](docs/compatibility.md) · [Changelog](CHANGELOG.md)
 
@@ -156,12 +158,22 @@ Monitor pending deliveries and `delivery_failed.pay_whop`. A successful webhook 
 | [Compatibility matrix](docs/compatibility.md) | Supported Pay operations and differences from Stripe |
 | [Verification evidence](docs/verification.md) | Tested versions, actual sandbox results and open validation gaps |
 | [Contributing](CONTRIBUTING.md) | Development setup, test commands and useful bug reports |
-| [Report a bug](https://github.com/yshmarov/pay-whop/issues/new/choose) | Reproduction and environment details, without credentials or buyer data |
+| [Report a bug](https://github.com/whoptools/pay-whop/issues/new/choose) | Reproduction and environment details, without credentials or buyer data |
 | [Security reporting](SECURITY.md) | Private vulnerability reports |
-| [Releases](https://github.com/yshmarov/pay-whop/releases) | Changelog and downloadable gem artifacts |
+| [Releases](https://github.com/whoptools/pay-whop/releases) | Changelog and downloadable gem artifacts |
 
 Maintained by [Yaroslav Shmarov](https://github.com/yshmarov). Built on [Pay](https://github.com/pay-rails/pay) and [Whop's official Ruby SDK](https://github.com/whopio/whopsdk-ruby). Available under the [MIT license](LICENSE).
 
 ## Demo appearance
 
-The Rails playground uses self-hosted Inter and official Frosted UI color tokens in `examples/rails/public/whoptools`. Its colors follow the system automatically, including changes while the page is open; there is no theme switch or saved override.
+The Rails playground uses the shared WhopTools kit in `examples/rails/public/whoptools` (Frosted UI colors, Inter, shared header and footer), vendored from [whoptools.com](https://github.com/whoptools/whoptools.com). Its colors follow the system light/dark preference automatically; there is no theme switch or saved override.
+
+## Part of WhopTools
+
+Open-source Whop integrations that share one design and one home at [whoptools.com](https://whoptools.com):
+
+| Project | Live demo | Source |
+| --- | --- | --- |
+| Whop Checkout for Webflow | [wf-checkout.whoptools.com](https://wf-checkout.whoptools.com/) | [webflow-whop](https://github.com/whoptools/webflow-whop) |
+| OmniAuth Whop | [omniauth.whoptools.com](https://omniauth.whoptools.com/) | [omniauth-whop](https://github.com/whoptools/omniauth-whop) |
+| Pay Whop | [pay.whoptools.com](https://pay.whoptools.com/) | [pay-whop](https://github.com/whoptools/pay-whop) |
