@@ -38,4 +38,4 @@ Never expose the local developer database or reuse a production Whop API key for
 
 Repository screenshots were captured from the deployed sandbox on 12 November 2026. Billing screenshots show synthetic customers and Whop test payments; they contain no API keys, buyer contact details or live-money transactions. Tax can make a USD 5.00 checkout appear as USD 6.00 in the billing table. The amber invoice/transfer section uses separate local simulation records.
 
-The public playground at https://pay.whoptools.com now runs on Hetzner. See [the deployment runbook](hetzner.md) for its shared-server setup.
+The public playground at https://pay-rails.whoptools.com now runs on Hetzner. See [the deployment runbook](hetzner.md) for its shared-server setup.

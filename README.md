@@ -7,15 +7,15 @@
 [![Gem downloads](https://img.shields.io/gem/dt/pay-whop?label=downloads)](https://rubygems.org/gems/pay-whop)
 [![Ruby 3.3+](https://img.shields.io/badge/Ruby-3.3%2B-CC342D)](pay-whop.gemspec)
 [![MIT license](https://img.shields.io/github/license/whoptools/pay-whop)](LICENSE)
-[![Live demo](https://img.shields.io/badge/live_demo-pay.whoptools.com-fa4616)](https://pay.whoptools.com/)
+[![Live demo](https://img.shields.io/badge/live_demo-pay--rails.whoptools.com-fa4616)](https://pay-rails.whoptools.com/)
 
 Hosted checkout, subscriptions, saved payment methods, refunds and marketplace subaccounts using familiar Pay models and Whop's official Ruby SDK.
 
 <a href="https://whop.com/start/?code=CAKARK" rel="sponsored"><img src=".github/create-whop-account.svg" alt="Create a Whop account" height="40"></a>
 
-[**Try the live demo**](https://pay.whoptools.com/) · [Install](#installation) · [Usage guide](docs/advanced-usage.md) · [Compatibility](docs/compatibility.md) · [Changelog](CHANGELOG.md)
+[**Try the live demo**](https://pay-rails.whoptools.com/) · [Install](#installation) · [Usage guide](docs/advanced-usage.md) · [Compatibility](docs/compatibility.md) · [Changelog](CHANGELOG.md)
 
-[![The deployed Rails playground with Whop subscription, one-time and marketplace checkout controls and its Ruby integration example](.github/images/demo-overview.jpg)](https://pay.whoptools.com/)
+[![The deployed Rails playground with Whop subscription, one-time and marketplace checkout controls and its Ruby integration example](.github/images/demo-overview.jpg)](https://pay-rails.whoptools.com/)
 
 **Community alpha.** Published on RubyGems as `0.1.0.alpha.4`. Independently maintained; not an official Whop or Pay integration. Start in the sandbox and review the [verification evidence](docs/verification.md) before production use.
 
@@ -56,7 +56,7 @@ Captured from the deployed demo on 12 November 2026. Synthetic customer records 
 
 ![Amber-labelled invoice and transfer simulations showing their local activity history and simulated outcomes](.github/images/demo-simulations.jpg)
 
-[Try these simulations](https://pay.whoptools.com/#simulations) without a Whop account or KYC. They update separate local demo records, with `sim_` references and a resettable history. They never call Whop, create Pay charges, grant access or move funds. A simulated outcome does not verify real invoice issuance or transfer settlement.
+[Try these simulations](https://pay-rails.whoptools.com/#simulations) without a Whop account or KYC. They update separate local demo records, with `sim_` references and a resettable history. They never call Whop, create Pay charges, grant access or move funds. A simulated outcome does not verify real invoice issuance or transfer settlement.
 
 </details>
 
@@ -152,7 +152,7 @@ Monitor pending deliveries and `delivery_failed.pay_whop`. A successful webhook 
 
 | Resource | What you will find |
 | --- | --- |
-| [Live sandbox playground](https://pay.whoptools.com/) | Test checkout, saved methods, refunds and session-scoped billing. Hosted on the shared WhopTools Hetzner server. |
+| [Live sandbox playground](https://pay-rails.whoptools.com/) | Test checkout, saved methods, refunds and session-scoped billing. Hosted on the shared WhopTools Hetzner server. |
 | [Run or deploy the demo](docs/demo.md) | Local setup, HTTPS returns, webhook configuration and Hetzner deployment |
 | [Advanced usage](docs/advanced-usage.md) | Billing, marketplaces, invoices, disputes, retries, permissions and recovery |
 | [Compatibility matrix](docs/compatibility.md) | Supported Pay operations and differences from Stripe |
@@ -176,4 +176,4 @@ Open-source Whop integrations that share one design and one home at [whoptools.c
 | --- | --- | --- |
 | Whop Checkout for Webflow | [wf-checkout.whoptools.com](https://wf-checkout.whoptools.com/) | [webflow-whop](https://github.com/whoptools/webflow-whop) |
 | OmniAuth Whop | [omniauth.whoptools.com](https://omniauth.whoptools.com/) | [omniauth-whop](https://github.com/whoptools/omniauth-whop) |
-| Pay Whop | [pay.whoptools.com](https://pay.whoptools.com/) | [pay-whop](https://github.com/whoptools/pay-whop) |
+| Pay Whop | [pay-rails.whoptools.com](https://pay-rails.whoptools.com/) | [pay-whop](https://github.com/whoptools/pay-whop) |

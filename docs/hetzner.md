@@ -1,6 +1,6 @@
 # Shared Hetzner deployment
 
-The playground runs at https://pay.whoptools.com on the existing Corsego server
+The playground runs at https://pay-rails.whoptools.com on the existing Corsego server
 (`188.245.75.73`), alongside the Webflow integration. Each app has its own container
 and hostname behind Kamal Proxy. The playground uses a dedicated PostgreSQL 17 container on the same host. It
 started with a fresh sandbox database on November 17, 2026; Neon data was not
@@ -85,9 +85,19 @@ GoodJob; it refuses to boot with a live Whop environment.
 
 ## Webhooks and rollback
 
-Whop delivers to `https://pay.whoptools.com/pay/whop/webhooks`. Preserve the existing
-endpoint's event list, dated API version, signing secret and child-event setting
-when moving its URL.
+The Whop webhook endpoint may use either `https://pay-rails.whoptools.com/pay/whop/webhooks`
+or the legacy `https://pay.whoptools.com/pay/whop/webhooks`; both are served in place.
+Preserve the existing endpoint's event list, dated API version, signing secret and
+child-event setting when moving its URL.
+
+## Hostnames
+
+`pay-rails.whoptools.com` is canonical (`DEMO_HOST`). The previous hostname,
+`pay.whoptools.com`, remains routed by Kamal Proxy and listed in `LEGACY_HOSTS`:
+browser GET/HEAD requests receive a 301 to the canonical host, while webhook POSTs
+and `/up` are served in place. Both hostnames are DNS-only Cloudflare A records.
+The cutover on November 18, 2026 installed the two-host deploy script and set
+`DEMO_HOST`, `LEGACY_HOSTS` and `WHOP_RETURN_URL` in the runtime environment.
 
 The former Render service and Neon database are retired. Application rollback
 uses previous Hetzner images with the current database; it does not restore
