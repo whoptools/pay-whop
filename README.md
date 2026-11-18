@@ -174,6 +174,6 @@ Open-source Whop integrations. More at [whoptools.com](https://whoptools.com).
 
 | Project | Live demo | Source |
 | --- | --- | --- |
-| Whop Checkout for Webflow | [wf-checkout.whoptools.com](https://wf-checkout.whoptools.com/) | [webflow-whop](https://github.com/whoptools/webflow-whop) |
-| OmniAuth Whop | [omniauth.whoptools.com](https://omniauth.whoptools.com/) | [omniauth-whop](https://github.com/whoptools/omniauth-whop) |
+| Whop Checkout for Webflow | [webflow-checkout.whoptools.com](https://webflow-checkout.whoptools.com/) | [webflow-whop](https://github.com/whoptools/webflow-whop) |
+| OmniAuth Whop | [omniauth-ruby.whoptools.com](https://omniauth-ruby.whoptools.com/) | [omniauth-whop](https://github.com/whoptools/omniauth-whop) |
 | Pay Whop | [pay-rails.whoptools.com](https://pay-rails.whoptools.com/) | [pay-whop](https://github.com/whoptools/pay-whop) |
