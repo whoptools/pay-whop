@@ -1,6 +1,6 @@
 /* Playground layout. Tokens, header, footer and buttons come from /whoptools/whoptools.css. */
 button, a { touch-action: manipulation; }
-.hero { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); gap: 2.5rem; align-items: center; padding-block-end: 2.5rem; }
+.hero { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); gap: 2.5rem; align-items: start; padding-block-end: 2.5rem; }
 .wt-eyebrow { flex-wrap: wrap; }
 .muted { color: var(--wt-muted); font-size: .875rem; }
 .hero .muted { margin-block-start: 1rem; }

@@ -170,7 +170,7 @@ The Rails playground uses the shared WhopTools kit in `examples/rails/public/who
 
 ## Part of WhopTools
 
-Open-source Whop integrations that share one design and one home at [whoptools.com](https://whoptools.com):
+Open-source Whop integrations. More at [whoptools.com](https://whoptools.com).
 
 | Project | Live demo | Source |
 | --- | --- | --- |
