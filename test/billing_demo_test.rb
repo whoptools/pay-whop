@@ -29,6 +29,15 @@ class BillingDemoTest < ActionDispatch::IntegrationTest
     assert_empty Pay::Whop::Charge.all
   end
 
+  test "the playground uses the shared WhopTools header and footer" do
+    get "/"
+    assert_select "body.wt-body"
+    assert_select "header.wt-header a.wt-button.wt-button--solid[href=?][rel=sponsored]", "https://whop.com/start/?code=CAKARK", text: "Create a Whop account"
+    assert_select "header.wt-header nav a[aria-current=page][href=?]", "https://pay.whoptools.com/"
+    %w[wf-checkout omniauth].each { |host| assert_select "header.wt-header nav a[href=?]", "https://#{host}.whoptools.com/" }
+    assert_select "footer.wt-footer a[href=?]", "https://github.com/whoptools/pay-whop"
+  end
+
   test "checkout creates a private session link and does not grant access" do
     request = api(:post, "checkout_configurations", {id: "ch_test", purchase_url: "https://sandbox.whop.com/checkout/test"})
     begin_demo

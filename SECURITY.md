@@ -1,6 +1,6 @@
 # Security reporting
 
-Report suspected vulnerabilities privately through [GitHub private vulnerability reporting](https://github.com/yshmarov/pay-whop/security/advisories/new), or open this repository's **Security → Report a vulnerability** page. Avoid public issues for exploitable vulnerabilities.
+Report suspected vulnerabilities privately through [GitHub private vulnerability reporting](https://github.com/whoptools/pay-whop/security/advisories/new), or open this repository's **Security → Report a vulnerability** page. Avoid public issues for exploitable vulnerabilities.
 
 Include the affected gem version, a minimal reproduction with synthetic data, expected/actual behavior, and the account or trust boundary involved. Do not include usable API keys, webhook secrets, buyer data, bank/card details or identity-verification documents. If a real credential was exposed, revoke or rotate it through the provider.
 
