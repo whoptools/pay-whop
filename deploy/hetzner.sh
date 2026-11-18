@@ -25,7 +25,8 @@ activate() {
   local directory=$1
   docker compose --project-name pay-whop --env-file "$directory/.env" -f "$directory/compose.yaml" up -d --no-build --wait --wait-timeout 120 app
   docker exec kamal-proxy kamal-proxy deploy whoptools-pay \
-    --target pay-whop-app:3001 --host pay.whoptools.com --tls --health-check-path /up
+    --target pay-whop-app:3001 --host pay-rails.whoptools.com --host pay.whoptools.com \
+    --tls --health-check-path /up
 }
 cleanup() {
   local result=$?
@@ -59,7 +60,7 @@ fi
 replacing=true
 activate "$release"
 curl --fail --silent --show-error --retry 5 --retry-all-errors --retry-delay 2 \
-  --resolve pay.whoptools.com:443:127.0.0.1 https://pay.whoptools.com/up >/dev/null
+  --resolve pay-rails.whoptools.com:443:127.0.0.1 https://pay-rails.whoptools.com/up >/dev/null
 ln -sfn "$release" "$base/current"
 activated=true
-printf 'Deployed %s to https://pay.whoptools.com/\n' "$revision"
+printf 'Deployed %s to https://pay-rails.whoptools.com/\n' "$revision"

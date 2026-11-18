@@ -6,6 +6,7 @@ require "action_view/railtie"
 require "action_mailer/railtie"
 require "active_job/railtie"
 Bundler.require(*Rails.groups)
+require_relative "legacy_host_redirect"
 
 module PayWhopDemo
   class Application < Rails::Application
@@ -16,6 +17,10 @@ module PayWhopDemo
     config.hosts = ["localhost", "127.0.0.1", "www.example.com"]
     config.hosts << ENV["DEMO_HOST"] if ENV["DEMO_HOST"].present?
     config.hosts << ENV["RENDER_EXTERNAL_HOSTNAME"] if ENV["RENDER_EXTERNAL_HOSTNAME"].present?
+    # Retired hostnames (comma-separated) redirect browsers to DEMO_HOST but still accept webhooks.
+    legacy_hosts = ENV.fetch("LEGACY_HOSTS", "").split(",").map(&:strip).reject(&:empty?)
+    config.hosts.concat(legacy_hosts)
+    config.middleware.insert_before ActionDispatch::HostAuthorization, LegacyHostRedirect, hosts: legacy_hosts, canonical: ENV["DEMO_HOST"]
     config.host_authorization = {exclude: ->(request) { request.path == "/up" }}
     config.eager_load = Rails.env.production?
     config.consider_all_requests_local = false

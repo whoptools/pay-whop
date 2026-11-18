@@ -28,7 +28,7 @@ class DeploymentTest(unittest.TestCase):
         self.script.write_text(source.replace('base=/opt/pay-whop', f'base={self.base}'))
         self.command('flock', 'exit 0')
         self.command('git', 'printf "%s\\trefs/heads/main\\n" "$TEST_SHA"')
-        self.command('curl', 'if [[ ${FAIL_HEALTH:-} == yes && $* == *https://pay.whoptools.com/up* ]]; then exit 42; fi')
+        self.command('curl', 'if [[ ${FAIL_HEALTH:-} == yes && $* == *https://pay-rails.whoptools.com/up* ]]; then exit 42; fi')
         self.command('tar', '''
 while [[ $# -gt 0 ]]; do
   if [[ $1 == -C ]]; then destination=$2; break; fi
