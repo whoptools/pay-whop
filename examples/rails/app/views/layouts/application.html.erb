@@ -8,13 +8,13 @@
     <%= csrf_meta_tags %>
     <meta name="color-scheme" content="light dark">
     <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)"><meta name="theme-color" content="#111111" media="(prefers-color-scheme: dark)">
-    <link rel="stylesheet" href="/whoptools/whoptools.css">
-    <link rel="stylesheet" href="/playground.css">
+    <link rel="stylesheet" href="<%= WhopTools::KIT_CSS %>">
+    <link rel="stylesheet" href="<%= WhopTools::PLAYGROUND_CSS %>">
   </head>
   <body class="wt-body">
     <a class="wt-skip" href="#main">Skip to playground</a>
     <%# Shared WhopTools navigation, vendored from whoptools/whoptools.com. %>
-    <%== Rails.root.join("public/whoptools/header.html").read %>
+    <%= WhopTools::HEADER %>
     <main id="main" class="wt-main">
       <div class="wt-container">
         <%= yield %>
@@ -25,6 +25,6 @@
         </section>
       </div>
     </main>
-    <%== Rails.root.join("public/whoptools/footer.html").read %>
+    <%= WhopTools::FOOTER %>
   </body>
 </html>

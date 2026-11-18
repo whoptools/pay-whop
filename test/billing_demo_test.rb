@@ -35,7 +35,8 @@ class BillingDemoTest < ActionDispatch::IntegrationTest
     assert_select "header.wt-header a.wt-button.wt-button--solid[href=?][rel=sponsored]", "https://whop.com/start/?code=CAKARK", text: "Create a Whop account"
     assert_select "header.wt-header nav a[aria-current=page][href=?]", "https://pay.whoptools.com/"
     %w[wf-checkout omniauth].each { |host| assert_select "header.wt-header nav a[href=?]", "https://#{host}.whoptools.com/" }
-    assert_select "footer.wt-footer a[href=?]", "https://github.com/whoptools/pay-whop"
+    assert_select "footer.wt-footer a[href=?][rel=author]", "https://x.com/yarotheslav"
+    assert_select "link[rel=stylesheet][href^=?]", "/whoptools/whoptools.css?v="
   end
 
   test "checkout creates a private session link and does not grant access" do
