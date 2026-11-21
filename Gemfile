@@ -4,10 +4,11 @@ gem "pay", ENV["PAY_VERSION"] if ENV["PAY_VERSION"]
 
 gem "rails", "~> 8.1.0"
 gem "sqlite3", "~> 2.0"
-gem "puma", "~> 7.0"
+gem "puma", "~> 8.1"
 gem "dotenv", "~> 3.0"
 gem "pg", "~> 1.6"
 gem "good_job", "~> 4.0"
-gem "minitest", "~> 5.0"
+gem "minitest", "~> 6.1"
+gem "minitest-mock", "~> 5.27"
 gem "webmock", "~> 3.0"
 gem "standard", "~> 1.0"
