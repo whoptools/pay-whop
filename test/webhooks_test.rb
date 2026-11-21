@@ -45,23 +45,30 @@ class WebhooksTest < ActionDispatch::IntegrationTest
     assert_equal "pay_test", Pay::Whop::Delivery.sole.resource_id
   end
 
-  test "refund webhook accepts the provider's nested payment reference" do
+  test "sandbox refund payload with a nested payment reconciles the canonical payment" do
     body, headers = sign_event(type: "refund.created", data: {"id" => "rf_test", "payment" => {"id" => "pay_test"}})
-    post "/pay/whop/webhooks", params: body, headers: headers
+    assert_enqueued_with(job: Pay::Whop::ProcessDeliveryJob) do
+      post "/pay/whop/webhooks", params: body, headers: headers
+    end
     assert_response :ok
-    assert_equal "pay_test", Pay::Whop::Delivery.sole.resource_id
-    api(:get, "payments/pay_test", payment)
-    Pay::Whop::Delivery.sole.process!
-    assert_equal "pay_test", @customer.charges.sole.processor_id
+    delivery = Pay::Whop::Delivery.sole
+    assert_equal "pay_test", delivery.resource_id
+    api(:get, "payments/pay_test", payment(refunded_amount: money("10.43")))
+    delivery.process!
+    assert_equal 1043, @customer.charges.sole.amount_refunded
+    assert delivery.reload.processed_at?
   end
 
-  test "refund webhook rejects missing and conflicting payment references" do
-    [{"id" => "rf_test"}, {"id" => "rf_test", "payment_id" => "pay_test", "payment" => {"id" => "pay_other"}}].each do |data|
-      body, headers = sign_event(type: "refund.created", data: data)
-      post "/pay/whop/webhooks", params: body, headers: headers
+  test "refunds with conflicting or missing payment IDs create no delivery" do
+    [{"payment_id" => "pay_test", "payment" => {"id" => "pay_other"}},
+      {"payment" => {}}, {"payment" => "pay_test"}, {"payment_id" => 123}].each do |reference|
+      body, headers = sign_event(type: "refund.created", data: {"id" => "rf_test"}.merge(reference))
+      assert_no_enqueued_jobs do
+        post "/pay/whop/webhooks", params: body, headers: headers
+      end
       assert_response :bad_request
+      assert_empty Pay::Whop::Delivery.all
     end
-    assert_empty Pay::Whop::Delivery.all
   end
 
   test "API failure leaves the delivery available for retry" do
