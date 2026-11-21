@@ -26,7 +26,7 @@ jobs:
       PAY_VERSION: ${{ matrix.pay }}
       TEST_DATABASE_URL: ${{ matrix.database == 'postgres' && 'postgresql://postgres:postgres@localhost:5432/pay_whop_test' || '' }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - uses: ruby/setup-ruby@v1
         with:
           ruby-version: ${{ matrix.ruby }}
@@ -40,7 +40,7 @@ jobs:
     name: Validate deployment
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - run: bash -n deploy/hetzner.sh
       - run: python3 deploy/test_deployment.py
 
