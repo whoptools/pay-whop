@@ -29,6 +29,19 @@ class BillingDemoTest < ActionDispatch::IntegrationTest
     assert_empty Pay::Whop::Charge.all
   end
 
+  test "the playground uses the shared WhopTools header and footer" do
+    get "/"
+    assert_select "body.wt-body"
+    assert_select "header.wt-header a.wt-button.wt-button--solid[href=?][rel=sponsored]", "https://whop.com/start/?code=CAKARK", text: "Create a Whop account"
+    assert_select "header.wt-header nav a[aria-current=page][href=?]", "https://pay-rails.whoptools.com/"
+    %w[webflow-checkout omniauth-ruby].each { |host| assert_select "header.wt-header nav a[href=?]", "https://#{host}.whoptools.com/" }
+    assert_select "footer.wt-footer a[href=?][rel=author]", "https://x.com/yarotheslav"
+    assert_select "link[rel=stylesheet][href^=?]", "/whoptools/whoptools.css?v="
+    assert_select "header.wt-header a[href*=github]", 0
+    assert_select "main a.wt-button[href=?] svg.wt-github", "https://github.com/whoptools/pay-whop"
+    assert_select "a[href*=?]", "github.com/whoptools/pay-whop#", 0
+  end
+
   test "checkout creates a private session link and does not grant access" do
     request = api(:post, "checkout_configurations", {id: "ch_test", purchase_url: "https://sandbox.whop.com/checkout/test"})
     begin_demo
@@ -183,6 +196,7 @@ class BillingDemoTest < ActionDispatch::IntegrationTest
     api(:get, "payment_methods?member_id=mber_demo&first=100&after", {data: [{id: "payt_demo", __typename: "CardPaymentMethod", payment_method_type: "card", card: {brand: "visa", last4: "4242", exp_month: 12, exp_year: 2034}}], page_info: {has_next_page: false}})
     recovery = "https://sandbox.whop.com/payments/recover/test"
     api(:post, "payments", payment(member_id: "mber_demo", metadata: customer.checkout_metadata, status: "requires_action", recovery_url: recovery))
+    api(:get, "payments/pay_test", payment(member_id: "mber_demo", metadata: customer.checkout_metadata, status: "requires_action", recovery_url: recovery))
     post "/charge", params: {payment_method_id: "payt_demo", authenticity_token: csrf_token}
     follow_redirect!
     assert_select "a[href=?]", recovery, text: "Complete test payment authentication on Whop"

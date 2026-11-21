@@ -14,7 +14,7 @@ module Pay
       def make_default!
         customer.verify_configuration!
         customer.with_lock do
-          customer.payment_methods.update_all(default: false)
+          customer.payment_methods.where.not(id: id).update_all(default: false)
           update!(default: true)
         end
       end

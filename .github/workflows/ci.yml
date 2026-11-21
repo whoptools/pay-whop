@@ -1,5 +1,10 @@
 name: CI
-on: [push, pull_request]
+on:
+  push:
+  pull_request:
+  workflow_call:
+permissions:
+  contents: read
 jobs:
   test:
     runs-on: ubuntu-latest
@@ -30,3 +35,47 @@ jobs:
       - run: bundle exec standardrb
       - if: matrix.ruby == '4.0' && matrix.pay == '12.4.0' && matrix.database == 'sqlite'
         run: bundle exec ruby bin/install-smoke
+
+  deployment-test:
+    name: Validate deployment
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: bash -n deploy/hetzner.sh
+      - run: python3 deploy/test_deployment.py
+
+  deploy:
+    name: Deploy to Hetzner
+    needs: [test, deployment-test]
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    concurrency:
+      group: hetzner-production
+      cancel-in-progress: false
+    steps:
+      - name: Configure deployment SSH
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.HETZNER_DEPLOY_KEY }}
+          SSH_KNOWN_HOSTS: ${{ secrets.HETZNER_KNOWN_HOSTS }}
+        run: |
+          install -d -m 700 ~/.ssh
+          printf '%s\n' "$SSH_PRIVATE_KEY" > ~/.ssh/id_ed25519
+          printf '%s\n' "$SSH_KNOWN_HOSTS" > ~/.ssh/known_hosts
+          chmod 600 ~/.ssh/id_ed25519 ~/.ssh/known_hosts
+      - name: Deploy tested main revision
+        env:
+          DEPLOY_SHA: ${{ github.sha }}
+        run: |
+          ssh -o BatchMode=yes -o StrictHostKeyChecking=yes \
+            -o ServerAliveInterval=30 -o ServerAliveCountMax=10 \
+            pay-whop-deploy@188.245.75.73 "deploy $DEPLOY_SHA"
+      - name: Check public health
+        run: |
+          curl --fail --silent --show-error --retry 5 --retry-all-errors \
+            --retry-delay 3 https://pay-rails.whoptools.com/up > /dev/null
+          curl --fail --silent --show-error https://webflow-checkout.whoptools.com/health > /dev/null
+      - name: Remove deployment credentials
+        if: always()
+        run: rm -f ~/.ssh/id_ed25519

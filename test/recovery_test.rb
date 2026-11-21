@@ -13,6 +13,19 @@ class RecoveryTest < ActiveSupport::TestCase
     assert_equal "active", @customer.subscriptions.sole.status
   end
 
+  test "reconciliation continues after a historical resource has disappeared" do
+    @customer.update!(processor_id: "mber_test")
+    {memberships: [membership(id: "mem_deleted"), membership], payments: [payment], invoices: []}.each do |endpoint, objects|
+      api(:get, "#{endpoint}?account_id=biz_test&member_id=mber_test&first=100&after", {data: objects, page_info: {has_next_page: false}})
+    end
+    api(:get, "memberships/mem_deleted", {error: {type: "not_found", message: "Membership not found"}}, status: 404)
+    api(:get, "memberships/mem_test", membership)
+    api(:get, "payments/pay_test", payment)
+    assert_equal({memberships: 1, payments: 1, invoices: 0, skipped: 1}, @customer.reconcile!)
+    assert_equal "mem_test", @customer.subscriptions.sole.processor_id
+    assert_equal "pay_test", @customer.charges.sole.processor_id
+  end
+
   test "unverifiable references from another application are reported and never imported" do
     @customer.update!(processor_id: "mber_test")
     api(:get, "memberships?account_id=biz_test&member_id=mber_test&first=100&after", {data: [membership(metadata: {pay_customer: "another-application-reference"})], page_info: {has_next_page: false}})

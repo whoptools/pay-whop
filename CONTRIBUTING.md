@@ -7,7 +7,7 @@ Bug reports, documentation improvements and focused pull requests are welcome. T
 Use Ruby 3.3 or newer:
 
 ```sh
-git clone https://github.com/yshmarov/pay-whop.git
+git clone https://github.com/whoptools/pay-whop.git
 cd pay-whop
 bundle install
 bin/test
@@ -27,6 +27,15 @@ bundle exec ruby bin/install-smoke
 
 See the [demo guide](docs/demo.md) for sandbox credentials, local checkout and webhook setup. Keep credentials, captured buyer payloads and verification documents out of commits, issues, screenshots and fixtures.
 
+## Whop signup links
+
+Use [Yaroslav's production Whop referral link](https://whop.com/start/?code=CAKARK)
+with the label “Create a Whop account” for reader-facing signup links.
+Keep the CTA concise, without appended affiliate or commission commentary.
+Avoid adding signup promotions to technical guides. Use `rel="sponsored nofollow"` for HTML links.
+Preserve technical documentation, sandbox, API, checkout and webhook URLs, and keep
+code examples functional.
+
 ## Make a useful change
 
 - Explain the behavior or bug the change addresses. Include a small reproduction where possible.
@@ -40,6 +49,17 @@ Run `bin/test` before submitting. A passing suite does not prove that a provider
 
 ## Report a bug or request a feature
 
-Use the [issue forms](https://github.com/yshmarov/pay-whop/issues/new/choose). Include gem/Ruby/Rails/Pay versions, sandbox or production environment, a minimal reproduction and redacted errors/status codes. Do not post API keys, webhook secrets, private checkout links, card/bank data or buyer contact details.
+Use the [issue forms](https://github.com/whoptools/pay-whop/issues/new/choose). Include gem/Ruby/Rails/Pay versions, sandbox or production environment, a minimal reproduction and redacted errors/status codes. Do not post API keys, webhook secrets, private checkout links, card/bank data or buyer contact details.
 
 For a vulnerability, use the private process in [SECURITY.md](SECURITY.md). For a feature request, describe the Rails/Pay use case and link to the relevant Whop API operation. Some Stripe concepts do not have a direct Whop equivalent.
+
+## Releases (maintainer)
+
+1. Update `lib/pay/whop/version.rb` to an unpublished version and update `CHANGELOG.md` in a pull request.
+2. Wait for CI, review and merge the pull request.
+3. From an up-to-date, clean `main`, create and push `vVERSION`, matching the gem version. Do not tag an unmerged branch.
+4. Watch the Release workflow. It runs the full CI matrix, checks the tag against the version and confirms the commit is on `main`, then publishes with RubyGems Trusted Publishing.
+
+The publisher uses `whoptools/pay-whop`, workflow `release.yml`, and GitHub environment `release`. The environment permits only `v*` tags. No long-lived RubyGems API key is needed in GitHub secrets. Changing the repository, workflow filename, or environment requires updating the RubyGems publisher.
+
+Publishing a version is irreversible. Check RubyGems before retrying a failed release; do not attempt to overwrite an existing version.

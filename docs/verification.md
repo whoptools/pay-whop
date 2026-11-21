@@ -12,7 +12,7 @@ Coverage includes signed owner mapping, environment and seller isolation, confli
 
 ## Actual sandbox evidence
 
-The [hosted playground](https://pay-whop.onrender.com/) uses the adapter and receives actual signed Whop events. Its database persists across deployments and idle shutdowns. The app is sandbox-only; no live-money transactions were performed.
+The [hosted playground](https://pay-rails.whoptools.com/) uses the adapter and receives actual signed Whop events. Its database persists across deployments and idle shutdowns. The app is sandbox-only; no live-money transactions were performed.
 
 | Flow | Observed result |
 | --- | --- |

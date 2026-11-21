@@ -6,7 +6,7 @@ Gem::Specification.new do |spec|
   spec.authors = ["Yaroslav Shmarov"]
   spec.summary = "Whop payments for the Pay Rails engine"
   spec.description = "A community Pay adapter for Whop checkout, subscriptions, saved methods, invoices, refunds, marketplace subaccounts and verified webhooks."
-  spec.homepage = "https://github.com/yshmarov/pay-whop"
+  spec.homepage = "https://github.com/whoptools/pay-whop"
   spec.license = "MIT"
   spec.required_ruby_version = ">= 3.3"
   spec.files = Dir["{app,config,db,lib,docs}/**/*", "README.md", "CHANGELOG.md", "LICENSE"].select { |path| File.file?(path) }

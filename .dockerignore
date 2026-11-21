@@ -1,0 +1,13 @@
+.git
+.bundle
+.env
+.env.*
+!.env.example
+vendor
+pkg
+tmp
+log
+*.gem
+examples/rails/log
+examples/rails/tmp
+examples/rails/storage

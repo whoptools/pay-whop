@@ -1,0 +1,56 @@
+/* Playground layout. Tokens, header, footer and buttons come from /whoptools/whoptools.css. */
+button, a { touch-action: manipulation; }
+.hero { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); gap: 2.5rem; align-items: start; padding-block-end: 2.5rem; }
+.wt-eyebrow { flex-wrap: wrap; }
+.muted { color: var(--wt-muted); font-size: .875rem; }
+.hero .muted { margin-block-start: 1rem; }
+.code { min-inline-size: 0; padding: 1.25rem 1.5rem; border: 1px solid var(--wt-border); border-radius: 12px; background: var(--wt-subtle); color: var(--wt-text); overflow: auto; }
+.code p { margin: 0 0 1rem; color: var(--wt-muted); font: .75rem var(--wt-mono); letter-spacing: .04em; }
+.code pre { margin: 0; font: .8125rem/1.8 var(--wt-mono); white-space: pre-wrap; overflow-wrap: anywhere; }
+.code code { font-size: inherit; }
+.steps { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1.5rem; padding-block: 2rem; border-block-start: 1px solid var(--wt-border); }
+.steps h3 { margin-block-end: .5rem; }
+.step-number { margin-block-end: .5rem; color: var(--wt-muted); font: .75rem var(--wt-mono); }
+.panel { margin: 0 0 1.5rem; padding: 1.5rem; border: 1px solid var(--wt-border); border-radius: 12px; background: var(--wt-background); }
+.panel > * + * { margin-block-start: .75rem; }
+.panel h2 { font-size: 1.125rem; }
+.panel-head { display: flex; justify-content: space-between; align-items: start; gap: 1rem; }
+.panel-head .muted { margin-block-start: .25rem; }
+.table-title { margin-block-start: 1.75rem; }
+.table { overflow-x: auto; }
+table { inline-size: 100%; border-collapse: collapse; font-size: .875rem; }
+th { text-align: start; color: var(--wt-muted); font-size: .75rem; font-weight: 600; }
+td, th { padding: .75rem .75rem .75rem 0; border-block-end: 1px solid var(--wt-border); vertical-align: middle; overflow-wrap: anywhere; }
+td code { font-size: .75rem; }
+.empty { padding-block: .5rem; color: var(--wt-muted); font-size: .875rem; }
+.notice { margin-block-end: 1.5rem; padding: 1rem; color: var(--wt-text); background: color-mix(in srgb, var(--wt-warning) 10%, var(--wt-background)); border: 1px solid var(--wt-warning); border-radius: 8px; }
+.actions { display: flex; flex-wrap: wrap; gap: .5rem; align-items: center; }
+form.button_to { display: inline-flex; }
+.actions form.button_to, .wt-actions form.button_to { margin: 0; }
+.details { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.5rem; }
+.test-card { font: 1.125rem var(--wt-mono); }
+.status { font-weight: 600; color: var(--wt-text); }
+summary { cursor: pointer; font-weight: 600; }
+.table table { min-inline-size: 40rem; }
+.table td, .table th { white-space: nowrap; }
+.table-help { display: none; }
+.simulation-panel { border-color: color-mix(in srgb, var(--wt-warning) 45%, var(--wt-border)); background: color-mix(in srgb, var(--wt-warning) 4%, var(--wt-background)); }
+.simulation-label { margin: 0; }
+.simulation-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.5rem; }
+.simulation-card { min-inline-size: 0; padding-block-start: 1.25rem; border-block-start: 1px solid var(--wt-border); }
+.simulation-card > * + * { margin-block-start: .75rem; }
+.simulation-card h4 { font-size: .875rem; margin-block-start: 1.25rem; }
+.simulation-history { padding-inline-start: 1.375rem; font-size: .8125rem; color: var(--wt-muted); }
+.about p + p { margin-block-start: .75rem; }
+.about p { max-inline-size: 44rem; font-size: .875rem; }
+@media (max-width: 47.99rem) {
+  .hero, .steps, .details, .simulation-grid { grid-template-columns: 1fr; gap: 1.25rem; }
+  .panel, .code { padding: 1.25rem; }
+  .panel-head { flex-direction: column; }
+  .test-card { font-size: 1rem; }
+  .table-help { display: block; }
+  .table td:last-child { inline-size: 1%; }
+  .table .actions { flex-direction: column; align-items: flex-start; }
+  .simulation-card .wt-button { max-inline-size: 100%; white-space: normal; block-size: auto; min-block-size: 2rem; }
+}
+@media (forced-colors: active) { .panel, .code { border: 1px solid CanvasText; } }

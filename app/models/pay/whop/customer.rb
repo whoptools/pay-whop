@@ -181,6 +181,7 @@ module Pay
 
       def confirmed_charge(result)
         verify_resource!(Whop.api_attributes(result))
+        result = payment(result.id) unless result.status == "paid"
         raise PaymentIncomplete, result unless result.status == "paid"
         Charge.sync(result.id, account_id: account_id)
       end
@@ -229,10 +230,17 @@ module Pay
               next
             end
             verify_resource!(object)
-            case kind
-            when :memberships then Subscription.sync(object.fetch("id"), account_id: account_id)
-            when :payments then Charge.sync(object.fetch("id"), account_id: account_id)
-            when :invoices then Invoice.sync(object.fetch("id"), account_id: account_id)
+            begin
+              case kind
+              when :memberships then Subscription.sync(object.fetch("id"), account_id: account_id)
+              when :payments then Charge.sync(object.fetch("id"), account_id: account_id)
+              when :invoices then Invoice.sync(object.fetch("id"), account_id: account_id)
+              end
+            rescue ApiError => error
+              raise unless error.status == 404
+              counts[:skipped] += 1
+              ActiveSupport::Notifications.instrument("reconciliation_skipped.pay_whop", customer_id: id, resource_id: object.fetch("id"), resource_type: kind)
+              next
             end
             counts[kind] += 1
           end
