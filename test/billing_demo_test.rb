@@ -37,6 +37,7 @@ class BillingDemoTest < ActionDispatch::IntegrationTest
     %w[wf-checkout omniauth-ruby].each { |host| assert_select "header.wt-header nav a[href=?]", "https://#{host}.whoptools.com/" }
     assert_select "footer.wt-footer a[href=?][rel=author]", "https://x.com/yarotheslav"
     assert_select "link[rel=stylesheet][href^=?]", "/whoptools/whoptools.css?v="
+    assert_select "link[rel=icon][type=?][href^=?]", "image/svg+xml", "/whoptools/favicon.svg?v="
     assert_select "header.wt-header a[href*=github]", 0
     assert_select "main a.wt-button[href=?] svg.wt-github", "https://github.com/whoptools/pay-whop"
     assert_select "a[href*=?]", "github.com/whoptools/pay-whop#", 0

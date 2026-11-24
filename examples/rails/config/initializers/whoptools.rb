@@ -15,5 +15,6 @@ module WhopTools
   end
 
   KIT_CSS = asset_path("whoptools/whoptools.css")
+  FAVICON = asset_path("whoptools/favicon.svg")
   PLAYGROUND_CSS = asset_path("playground.css")
 end
