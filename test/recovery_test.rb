@@ -1,6 +1,29 @@
 require "test_helper"
 
 class RecoveryTest < ActiveSupport::TestCase
+  test "subscription refresh skips disappeared memberships and continues to live renewals" do
+    @customer.update!(processor_id: "mber_test")
+    api(:get, "memberships?account_id=biz_test&member_id=mber_test&first=100&after", {data: [membership(id: "mem_deleted"), membership], page_info: {has_next_page: false}})
+    api(:get, "memberships/mem_deleted", {error: {type: "not_found", message: "Membership not found"}}, status: 404)
+    api(:get, "memberships/mem_test", membership)
+    observed = []
+    subscriber = ActiveSupport::Notifications.subscribe("reconciliation_skipped.pay_whop") { |*args| observed << args.last }
+
+    assert_equal ["mem_test"], @customer.sync_subscriptions.pluck(:processor_id)
+    assert_equal ["mem_deleted"], observed.map { |event| event[:resource_id] }
+  ensure
+    ActiveSupport::Notifications.unsubscribe(subscriber) if subscriber
+  end
+
+  test "subscription refresh does not hide missing permissions" do
+    @customer.update!(processor_id: "mber_test")
+    api(:get, "memberships?account_id=biz_test&member_id=mber_test&first=100&after", {data: [membership], page_info: {has_next_page: false}})
+    api(:get, "memberships/mem_test", {error: {type: "forbidden", message: "Permission required"}}, status: 403)
+    error = assert_raises(Pay::Whop::ApiError) { @customer.sync_subscriptions }
+    assert_equal 403, error.status
+    assert_empty @customer.subscriptions
+  end
+
   test "customer reconciliation uses account and member filters and refreshes confirmed records" do
     @customer.update!(processor_id: "mber_test")
     {memberships: [membership], payments: [payment], invoices: []}.each do |endpoint, objects|

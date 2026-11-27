@@ -210,6 +210,9 @@ module Pay
           next if Whop.allow_shared_members && reference && reference != self
           verify_resource!(object)
           Subscription.sync(object.fetch("id"), account_id: account_id)
+        rescue ApiError => error
+          raise unless error.status == 404
+          ActiveSupport::Notifications.instrument("reconciliation_skipped.pay_whop", customer_id: id, resource_id: object.fetch("id"), resource_type: :memberships)
         end
         subscriptions.reload
       end
