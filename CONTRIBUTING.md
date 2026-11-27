@@ -13,7 +13,7 @@ bundle install
 bin/test
 ```
 
-The suite runs against a real Rails application and Pay models. WebMock blocks external requests; API keys and a Whop account are not needed. `bin/test` runs tests and Standard Ruby linting. CI covers Ruby 3.3/3.4/4.0, Pay 12.3/12.4 and SQLite/PostgreSQL.
+The suite runs against a real Rails application and Pay models. WebMock blocks external requests; API keys and a Whop account are not needed. `bin/test` runs tests and Standard Ruby linting. CI covers Ruby 3.3/3.4/4.0, Pay 12.3/12.4/13.0 and SQLite/PostgreSQL, plus Whop SDK 2.7/2.8.
 
 Optional checks:
 

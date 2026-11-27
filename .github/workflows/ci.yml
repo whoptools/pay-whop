@@ -12,8 +12,14 @@ jobs:
       fail-fast: false
       matrix:
         ruby: ["3.3", "3.4", "4.0"]
-        pay: ["12.3.0", "12.4.0"]
+        pay: ["12.3.0", "12.4.0", "13.0.1"]
         database: [sqlite, postgres]
+        sdk: ["2.8.1"]
+        include:
+          - ruby: "3.3"
+            pay: "12.3.0"
+            database: postgres
+            sdk: "2.7.0"
     services:
       postgres:
         image: postgres:18
@@ -24,16 +30,17 @@ jobs:
         options: --health-cmd pg_isready --health-interval 5s --health-timeout 5s --health-retries 10
     env:
       PAY_VERSION: ${{ matrix.pay }}
+      WHOP_SDK_VERSION: ${{ matrix.sdk }}
       TEST_DATABASE_URL: ${{ matrix.database == 'postgres' && 'postgresql://postgres:postgres@localhost:5432/pay_whop_test' || '' }}
     steps:
       - uses: actions/checkout@v7
       - uses: ruby/setup-ruby@v1
         with:
           ruby-version: ${{ matrix.ruby }}
-      - run: bundle update pay
+      - run: bundle update pay whop_sdk
       - run: bundle exec rake test
       - run: bundle exec standardrb
-      - if: matrix.ruby == '4.0' && matrix.pay == '12.4.0' && matrix.database == 'sqlite'
+      - if: matrix.ruby == '4.0' && matrix.pay == '13.0.1' && matrix.database == 'sqlite'
         run: bundle exec ruby bin/install-smoke
 
   deployment-test:

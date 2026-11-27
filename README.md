@@ -17,7 +17,7 @@ Hosted checkout, subscriptions, saved payment methods, refunds and marketplace s
 
 [![The deployed Rails playground with Whop subscription, one-time and marketplace checkout controls and its Ruby integration example](.github/images/demo-overview.jpg)](https://pay-rails.whoptools.com/)
 
-**Community alpha.** Published on RubyGems as `0.1.0.alpha.5`. Independently maintained; not an official Whop or Pay integration. Start in the sandbox and review the [verification evidence](docs/verification.md) before production use.
+**Community alpha.** Independently maintained; not an official Whop or Pay integration. Start in the sandbox and review the [verification evidence](docs/verification.md) before production use.
 
 ## What you can build
 
@@ -35,8 +35,8 @@ See the [full compatibility matrix](docs/compatibility.md) for Pay method covera
 
 ## Tested, with evidence
 
-- **12 CI combinations:** Ruby 3.3 / 3.4 / 4.0 × Pay 12.3 / 12.4 × SQLite / PostgreSQL, using Rails 8.1.
-- **109 tests, 423 assertions** in the `0.1.0.alpha.5` release suite, plus Standard Ruby linting. Tests exercise real Pay models, signed webhook requests and the SDK/HTTP boundary without payment credentials.
+- **19 CI combinations:** Ruby 3.3 / 3.4 / 4.0 × Pay 12.3 / 12.4 / 13.0 × SQLite / PostgreSQL, plus the minimum Whop SDK, using Rails 8.1.
+- **117 tests, 473 assertions** in the `0.1.0.alpha.6` suite, plus Standard Ruby linting. Tests exercise real Pay models, signed webhook requests and the SDK/HTTP boundary without payment credentials.
 - **Fresh-app installation:** the published gem was downloaded, its SHA-256 checked against the release artifact, and installed/migrated/eager-loaded in a separate Rails application.
 - **Actual sandbox runs:** recurring and one-time checkout, marketplace fees, cancellation, full/partial refunds, saved methods, authorization/capture/void and signed child webhooks. [Observed results and remaining gaps →](docs/verification.md)
 
@@ -62,11 +62,11 @@ Captured from the deployed demo on 12 November 2026. Synthetic customer records 
 
 ## Installation
 
-Requires Ruby 3.3+, Pay 12.3–12.x and Whop Ruby SDK 2.7.x. The demo and installation smoke test use Rails 8.1. Requests are pinned to Whop API date `2026-10-28-1`.
+Requires Ruby 3.3+, Pay 12.3–13.x and Whop Ruby SDK 2.7–2.8. The demo and installation smoke test use Rails 8.1. Requests are pinned to Whop API date `2026-10-28-1`.
 
 ```ruby
 # Gemfile
-gem "pay-whop", "0.1.0.alpha.5"
+gem "pay-whop", "0.1.0.alpha.6"
 ```
 
 Install both engines' missing migrations, including Pay's STI and object columns:

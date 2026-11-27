@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.1.0.alpha.6
+
+- Support Pay 12.3 through 13.x and Whop SDK 2.7/2.8, with CI covering Pay 13 and the minimum SDK version.
+- Refresh the canonical payment after an idempotent saved-card charge returns a cached pending response.
+- Preserve a saved payment method's default flag when it is selected again.
+- Continue customer reconciliation and subscription refresh after a historical resource returns HTTP 404; permission and other API failures still surface.
+- Include the sandbox checkout, refund and deployment fixes shipped since the previous gem release.
+
 ## 0.1.0.alpha.5
 
 - Preserve explicit adaptive-pricing settings on inline checkouts instead of losing them in SDK serialization.
